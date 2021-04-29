@@ -25,9 +25,7 @@ namespace MSTestMoodAnalyzer
             Assert.AreEqual(expected, actual);
         }
 
-        /* TC 1.2:- Given “I am in Any Mood” message Should Return HAPPY.
-                    - To make the Test case pass analyseMood method need to check for Sad else return HAPPY
-       */
+        // TC 1.2
         [TestMethod]
         public void Given_Happymood_Expecting_Happy_Result()  //Method
         {
