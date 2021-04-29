@@ -63,6 +63,25 @@ namespace MoodAnalyserPrb
 
             }
         }
+        // UC6
+        public string InvokeAnalyzerMethod(string message, string methodName)
+        {
+            try
+            {
+                Type type = typeof(MoodAnalyzer);
+
+                MethodInfo analyzerMoodInfo = type.GetMethod(methodName);
+                MoodAnalyserFactory Factory = new MoodAnalyserFactory();
+                object moodAnalyzerObject = Factory.CreateMoodAnalyzerParameterObject("MoodAnalyzerProblem.MoodAnalyzer", "MoodAnalyzer", message);
+                object mood = analyzerMoodInfo.Invoke(moodAnalyzerObject, null);
+                return mood.ToString();
+            }
+            catch (NullReferenceException)
+            {
+                throw new MoodAnalyserException(MoodAnalyserException.ExceptionType.NO_SUCH_METHOD, "Method is not found");
+            }
+        }
+
 
     }
 }
