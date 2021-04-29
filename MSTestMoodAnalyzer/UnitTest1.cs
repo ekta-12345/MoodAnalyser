@@ -245,6 +245,58 @@ namespace MSTestMoodAnalyzer
             }
             obj.Equals(expected);
         }
+        /* TC7.1:- Set Happy Message with Reflector Should Return HAPPY.
+        *         - To pass this TC, Use Reflector to Set the Field Value and Invoke Method using Reflection 
+        *         and Assert HAPPY Mood.
+        */
+        [TestMethod]
+        public void GivenMessageDynamically_returnMessage()
+        {
+            string expected = "Iam so happy";
+
+            string actual = MoodAnalyserFactory.SetField("Iam so happy", "message");
+            Assert.AreEqual(expected, actual);
+        }
+
+
+        /* TC 7.2:- Set Field When Improper Should Throw Exception with No Such Field.
+         *          - To pass this TC, Use Reflector to Set the Value on improper Field, catch the Exception and 
+                    throw indicating No Such Field error.
+         */
+        [TestMethod]
+        public void GivenImproperFieldName_ThrowNoSuchFieldException()
+        {
+
+            string expected = "No Such Field";
+            try
+            {
+                MoodAnalyserFactory.SetField("Iam so happy", "wrongMessage");
+            }
+            catch (MoodAnalyserException e)
+            {
+                Assert.AreEqual(expected, e.Message);
+            }
+
+        }
+        /* TC 7.3:- Setting Null Message with Reflector Should Throw Exception.
+                    - To pass this TC, Use Reflector to Set the Field Value to null and check Exception.
+        */
+
+        [TestMethod]
+        public void GivenNullMessage_ThrowException()
+        {
+            string expected = "Mood should not be NULL";
+
+            try
+            {
+                MoodAnalyserFactory.SetField(null, "message");
+            }
+            catch (MoodAnalyserException e)
+            {
+                Assert.AreEqual(expected, e.Message);
+            }
+
+        }
 
 
     }
