@@ -1,13 +1,15 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using MoodAnalyserPrb;
 
 
 namespace MSTestMoodAnalyzer
 {
+    
     [TestClass]
     public class UnitTest1  //Class
-    {/* TC 1.1:- Given “I am in Sad Mood” message Should Return SAD
+    {
+        /* TC 1.1:- Given “I am in Sad Mood” message Should Return SAD
                     - analyseMood method can just return SAD to pass this Test Case (TC)
         */
         [TestMethod]
@@ -35,8 +37,9 @@ namespace MSTestMoodAnalyzer
             string actual = mood.Analyzer();    //act
             Assert.AreEqual(expected, actual);  //Assert
         }
+
         /* UC2:- Handle Exception if User Provides Invalid Mood
-        */
+         */
         [TestMethod]
         public void Given_Nullmood_Expecting_Exception_Result()  //Method
         {
@@ -60,8 +63,102 @@ namespace MSTestMoodAnalyzer
             string actual = mood.Analyzer();    //act
 
             Assert.AreEqual(expected, actual);  //Assert
+        }
 
+        /* TC 3.1:- NULL Given NULL Mood Should Throw MoodAnalysisException
+                    To pass this Test Case in try catch block throw MoodAnalysisException
+         */
+        [TestMethod]
+        public void Given_Nullmood_Using_CustomExpection_Return_Null()  //Method
+        {
+            MoodAnalyzer mood = new MoodAnalyzer(null); //Create object and arrange 
+            //string actual = "";
+            string actual = "";
+
+            try
+            {
+                actual = mood.Analyzer();    //act
+
+            }
+            catch (MoodAnalyserException exception)
+            {
+                Assert.AreEqual("Mood should not be null", exception.Message);  //Assert
+            }
+        }
+
+        // TC 3.2
+        [TestMethod]
+        public void Given_Emptymood_Using_CustomExpection_Return_Empty()  //Method
+        {
+
+            string actual = "";
+
+            try
+            {
+                string message = string.Empty;
+                MoodAnalyzer mood = new MoodAnalyzer(message); //Create object and arrange 
+                actual = mood.Analyzer();    //act
+
+            }
+            catch (MoodAnalyserException exception)
+            {
+                Assert.AreEqual("Mood should not be empty", exception.Message);  //Assert
+            }
 
         }
+        // TC 4.1
+        
+
+        [TestMethod]
+        public void GivenMoodAnalyseClass_ShouldReturn_MoodAnalyserObject()
+        {
+            string message = null;
+            object expected = new MoodAnalyzer(message);
+            MoodAnalyserFactory factory = new MoodAnalyserFactory();
+            object obj = factory.CreateMoodAnalyzerObject("MoodAnalyzerProblem.MoodAnalyzer", "MoodAnalyzer");
+            expected.Equals(obj);
+        }
+
+         //TC 4.2
+         
+        [TestMethod]
+        public void MoodAnalyseClass_GivenWrongClassName_ShouldReturn_NOClassException()
+        {
+            string expected = "Class not found";
+            try
+            {
+                string message = null;
+                object moodAnalyser = new MoodAnalyzer(message);
+                MoodAnalyserFactory factory = new MoodAnalyserFactory();
+                object obj = factory.CreateMoodAnalyzerObject("MoodAnalyzerProblem.MoodAnalyzer", "MoodAnalyzer");
+                moodAnalyser.Equals(obj);
+            }
+            catch (MoodAnalyserException ex)
+            {
+                Assert.AreEqual(expected, ex.Message);
+            }
+
+        }
+        //TC 4.3
+      
+        [TestMethod]
+        public void MoodAnalyseClass_GivenWrongConstructorName_ShouldReturn_NoConstructorException()
+        {
+            string expected = "Constructor not found";
+            try
+            {
+                string message = null;
+                object moodAnalyser = new MoodAnalyzer(message);
+                MoodAnalyserFactory factory = new MoodAnalyserFactory();
+                object obj = factory.CreateMoodAnalyzerObject("MoodAnalyzerProblem.MoodAnalyzer", "MoodAnalyzer");
+                moodAnalyser.Equals(obj);
+            }
+            catch (MoodAnalyserException ex)
+            {
+                Assert.AreEqual(expected, ex.Message);
+            }
+
+        }
+
     }
 }
