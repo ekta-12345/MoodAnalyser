@@ -6,7 +6,27 @@ using System.Threading.Tasks;
 
 namespace MoodAnalyserPrb
 {
-    class MoodAnalyzer
+    public class MoodAnalyzer
     {
+        public string message;  //instance variable      
+
+
+        public MoodAnalyzer(string message) //parameterized constructor for intilizing instance member
+        {
+            this.message = message;
+
+        }
+        public string Analyzer()  //Analyzer method find mood
+        {
+            if (this.message.ToLower().Contains("happy"))
+            {
+                return "happy";
+            }
+            else
+            {
+                return "sad";
+            }
+        }
     }
 }
+
