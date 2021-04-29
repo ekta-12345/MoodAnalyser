@@ -9,7 +9,7 @@ using System.Reflection;
 
 namespace MoodAnalyserPrb
 {
-    class MoodAnalyserFactory
+    public class MoodAnalyserFactory
     {
         public object CreateMoodAnalyzerObject(string className, string constructor)
         {
@@ -38,7 +38,35 @@ namespace MoodAnalyserPrb
             }
         }
 
+        //UC5
+        public Object CreateMoodAnalyzerParameterObject(string className, string constructorName, string message)
+        {
+            Type type = typeof(MoodAnalyzer);
+
+            if (type.Name.Equals(className) || type.FullName.Equals(className))
+            {
+
+                if (type.Name.Equals(constructorName))
+                {
+                    ConstructorInfo constructorObject = type.GetConstructor(new[] { typeof(string) });
+                    Object instance = constructorObject.Invoke(new object[] { message });
+                    return instance;
+                }
+                else
+                {
+                    throw new MoodAnalyserException(MoodAnalyserException.ExceptionType.NO_SUCH_METHOD, "Constructor not found");
+                }
+            }
+            else
+            {
+                throw new MoodAnalyserException(MoodAnalyserException.ExceptionType.CLASS_NOT_FOUND, "Class not found");
+
+            }
+        }
 
     }
 }
+
+    
+
 
